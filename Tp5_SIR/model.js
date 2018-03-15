@@ -4,14 +4,19 @@
 
 function Drawing(){
 
-	this.shapes = new Array()
+	this.shapes = new Array();
+
     this.getForms = function () {
         return this.shapes
-    }
+    }.bind(this);
 
     this.addForm = function (shape) {
         this.shapes.push(shape)
     }
+
+    this.removeForm = function(id){
+        this.shapes.splice(id,1);
+    };
 };
 
 function Forme(epaisseur, couleur){
