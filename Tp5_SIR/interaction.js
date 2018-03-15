@@ -9,35 +9,39 @@ function dnd(canvas, interactor) {
   	this.yinit = 0;
     this.xfin = 0;
     this.yfin = 0;
-	var presse;
+	this.presse = false;
 
 	// Developper les 3 fonctions gérant les événements
 
 	//bouton souris pressé
 	this.mousedown = function(evt) {
-		var xinit = getMousePosition(canvas, evt).x;
-  		var yinit = getMousePosition(canvas, evt).y;
-		console.log("pressé xinit : " + xinit);
-		console.log("pressé yinit : " + yinit);
-		presse = true;
-		this.interactor.onInteractionStart(this);
+		this.xinit = getMousePosition(canvas, evt).x;
+  		this.yinit = getMousePosition(canvas, evt).y;
+  		this.xfin = this.xinit
+  		this.yfin = this.yinit
+		console.log("pressé xinit : " + this.xinit);
+		console.log("pressé yinit : " + this.yinit);
+		this.presse = true;
+		interactor.onInteractionStart(this);
   	}.bind(this) ;
   	
   	//bouton souris maintenu pressé
   	this.mousemove = function(evt) {
-  		if(presse == true) {
-			var xfin = getMousePosition(canvas, evt).x;
-			var yfin = getMousePosition(canvas, evt).y;
-			console.log("maintien xfin : " + xfin);
-			console.log("maintien yfin : " + yfin);
-			this.interactor.onInteractionUpdate(this);
+  		if(this.presse==true) {
+			this.xfin = getMousePosition(canvas, evt).x;
+			this.yfin = getMousePosition(canvas, evt).y;
+			console.log("maintien xfin : " + this.xfin);
+			console.log("maintien yfin : " + this.yfin);
+			interactor.onInteractionUpdate(this);
 		}
     }.bind(this) ;
   
     //bouton souris relaché
     this.mouseup = function(evt) {
-    	presse = false;
-    	this.interactor.onInteractionEnd(this);
+    	if(this.presse==true) {
+    		interactor.onInteractionEnd(this);
+    		this.presse = false;
+   		}
     }.bind(this) ;
 
 	// Associer les fonctions précédentes aux évènements du canvas.
